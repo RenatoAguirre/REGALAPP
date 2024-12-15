@@ -1,3 +1,4 @@
 class Wishlist < ApplicationRecord
-  has_many :products
+  belongs_to :user
+  has_many :products, dependent: :destroy
 end
