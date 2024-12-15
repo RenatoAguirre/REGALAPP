@@ -6,12 +6,13 @@ import WishlistFormModal from "../components/WishlistFormModal";
 
 export type ChristmasWishlistProps = {
   isDarkMode: boolean;
+  wishListItems: WishlistItem[];
 };
 
 const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
-  isDarkMode,
+  isDarkMode, wishListItems
 }) => {
-  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
+  const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>(wishListItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const addProduct = (product: NewProduct) => {
@@ -20,7 +21,7 @@ const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
 
   const removeFromWishlist = (id: number) => {
     setWishlistItems(wishlistItems.filter((item) => item.id !== id));
-  };
+  }; 
 
   return (
     <div className={`min-h-screen ${isDarkMode ? "bg-gray-900" : "bg-red-50"}`}>

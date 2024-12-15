@@ -25,26 +25,15 @@ whishlist:
 
 export interface NewProduct {
   name: string;
-  price: string;
-  image: string;
-  link: string;
-  description: string;
+  order: number;
+  price?: number;
+  image?: string;
+  link?: string;
+  description?: string;
 }
 export interface WishlistItem extends NewProduct {
   id: number;
 }
-
-export type Product = {
-  id: number;
-  wishlist: string;
-  name: string;
-  price: string;
-  bought: boolean;
-  description?: string;
-  image?: string;
-  link?: string;
-  order: number;
-};
 
 export type User = {
   email: string;
@@ -59,4 +48,9 @@ export type SavedWishlist = {
 export type Wishlist = {
   UUID: string;
   user: string;
+};
+
+export type WishlistResponse = {
+  wishlist: Wishlist;
+  wishListItems: WishlistItem[];
 };
