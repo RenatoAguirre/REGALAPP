@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   resources :wishlists
 
   get 'me/wishlist', to: 'wishlists#me_wishlist'
+  put 'me/wishlist', to: 'wishlists#update'
   get 'wishlist/:id', to: 'wishlists#other_usher_wishlist'
 end
