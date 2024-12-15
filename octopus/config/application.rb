@@ -23,5 +23,10 @@ module Octopus
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    
+    Rails.application.config.auth0 = {
+      domain: "dev-rb7h7bevogf3tu8q.us.auth0.com",
+      audience: "https://some-friendly-identifier/"
+    }
   end
 end
