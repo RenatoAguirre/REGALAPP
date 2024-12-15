@@ -1,29 +1,27 @@
+// src/App.tsx
 import "./App.css";
-import ChristmasWishlist from "./pages/ChristmasWishlist";
 import Header from "./components/layouts/Header";
 import { useDarkMode } from "./hooks/useDarkMode";
-import getWishlist from "./services/getWishlist.service";
-import { useEffect, useState } from "react";
-import { WishlistItem } from "./types";
 import { useAuth0 } from "@auth0/auth0-react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import MyWishlist from "./pages/MyWishList";
+import UserWishlist from "./pages/UserWishList";
 
 function App() {
   const [isDarkMode, toggleDarkMode] = useDarkMode();
-  const [wishListItems, setWishlistItems] = useState<WishlistItem[]>([]);
-  const { isAuthenticated, user } = useAuth0();
-
-  useEffect(() => {
-    getWishlist("458fb808-719f-4e07-8819-7155bda3abd3").then((response) => {
-      setWishlistItems(response.wishListItems);
-    });
-  }
-  , [isAuthenticated, user]);
+  const { isAuthenticated } = useAuth0();
 
   return (
-    <>
+    <Router>
       <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-      <ChristmasWishlist isDarkMode={isDarkMode} wishListItems={wishListItems}/>
-    </>
+      <Routes>
+        <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/me/wishlist" />} />
+        <Route path="/me/wishlist" element={isAuthenticated ? <MyWishlist isDarkMode={isDarkMode} /> : <Navigate to="/login" />} />
+        <Route path="/wishlist/:userId" element={<UserWishlist isDarkMode={isDarkMode} />} />
+        <Route path="*" element={<Navigate to={isAuthenticated ? "/me/wishlist" : "/login"} />} />
+      </Routes>
+    </Router>
   );
 }
 

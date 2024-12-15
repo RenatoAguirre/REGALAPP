@@ -5,7 +5,7 @@ import { FaTrash } from "react-icons/fa";
 interface WishlistItemCardProps {
   item: WishlistItem;
   isDarkMode: boolean;
-  onRemove: (id: number) => void;
+  onRemove?: (id: number) => void;
 }
 
 const WishlistItemCard: React.FC<WishlistItemCardProps> = ({
@@ -53,13 +53,15 @@ const WishlistItemCard: React.FC<WishlistItemCardProps> = ({
           >
             View Product
           </a>
-          <button
-            onClick={() => onRemove(item.id)}
-            className="text-red-500 hover:text-red-700 transition"
-            aria-label="Remove from wishlist"
-          >
-            <FaTrash size={20} />
-          </button>
+          {onRemove && (
+            <button
+              onClick={() => onRemove(item.id)}
+              className="text-red-500 hover:text-red-700 transition"
+              aria-label="Remove from wishlist"
+            >
+              <FaTrash size={20} />
+            </button>
+          )}
         </div>
       </div>
     </div>

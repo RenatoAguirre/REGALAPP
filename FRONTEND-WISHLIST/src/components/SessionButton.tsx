@@ -1,29 +1,11 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 
 const SessionButton = () => {
-  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
-  const buttonLabel = isAuthenticated ? "Log Out" : "Log In";
+  const { isAuthenticated } = useAuth0();
 
-  const sessionHandler = () => {
-    if (isAuthenticated) {
-      logout();
-    } else {
-      loginWithRedirect({});
-    }
-  };
-
-  return (
-    <button
-      className={`${
-        isAuthenticated
-          ? "bg-red-500 hover:bg-red-700"
-          : "bg-blue-400 hover:bg-blue-400"
-      }  text-white font-bold py-2 px-4 rounded`}
-      onClick={sessionHandler}
-    >
-      {buttonLabel}
-    </button>
-  );
+  return isAuthenticated ? <LogoutButton /> : <LoginButton />;
 };
 
 export default SessionButton;

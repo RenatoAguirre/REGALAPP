@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { WishlistItem, NewProduct } from "../types";
-import SnowflakeBackground from "../components/SnowflakeBackground";
-import WishlistItemCard from "../components/WishlistItemCard";
-import WishlistFormModal from "../components/WishlistFormModal";
+import SnowflakeBackground from "./SnowflakeBackground";
+import WishlistItemCard from "./WishlistItemCard";
+import WishlistFormModal from "./WishlistFormModal";
 
 export type ChristmasWishlistProps = {
   isDarkMode: boolean;
   wishListItems: WishlistItem[];
+  isOwner: boolean;
 };
 
 const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
-  isDarkMode, wishListItems
+  isDarkMode, wishListItems, isOwner
 }) => {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>(wishListItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,20 +29,24 @@ const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
       <SnowflakeBackground isDarkMode={isDarkMode} />
 
       <div className="container mx-auto px-4 py-8">
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className={`mb-8 ${
-            isDarkMode ? "bg-green-700" : "bg-green-600"
-          } text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-green-700 transition`}
-        >
-          Add New Item
-        </button>
-        {isModalOpen && (
-          <WishlistFormModal
-            isDarkMode={isDarkMode}
-            onClose={() => setIsModalOpen(false)}
-            onAdd={addProduct}
-          />
+        {isOwner && (
+          <>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className={`mb-8 ${
+                isDarkMode ? "bg-green-700" : "bg-green-600"
+              } text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-green-700 transition`}
+            >
+              Add New Item
+            </button>
+            {isModalOpen && (
+              <WishlistFormModal
+                isDarkMode={isDarkMode}
+                onClose={() => setIsModalOpen(false)}
+                onAdd={addProduct}
+              />
+            )}
+          </>
         )}
         {wishlistItems.length === 0 ? (
           <div
@@ -50,7 +55,7 @@ const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
             } rounded-lg shadow`}
           >
             <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
-              Your wishlist is empty. Start adding some holiday magic!
+              {isOwner ? "Your wishlist is empty. Add a new item!" : "This wishlist is empty."}
             </p>
           </div>
         ) : (
@@ -60,7 +65,7 @@ const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
                 key={item.id}
                 item={item}
                 isDarkMode={isDarkMode}
-                onRemove={removeFromWishlist}
+                onRemove={isOwner ? removeFromWishlist : undefined}
               />
             ))}
           </div>
