@@ -2,32 +2,20 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: my_app_production
-  url: <%= ENV["DATABASE_URL"] %>
-
-development:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: <%= ENV.fetch("DB_USERNAME")%>
   password: <%= ENV.fetch("DB_PASSWORD") %>
   host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
   port: <%= ENV.fetch("DB_PORT") { 5432 } %>
+
+development:
+  <<: *default
   database: whislist_development
 
 test:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV.fetch("DB_USERNAME")%>
-  password: <%= ENV.fetch("DB_PASSWORD") %>
-  host: <%= ENV.fetch("DB_HOST") { "localhost" } %>
-  port: <%= ENV.fetch("DB_PORT") { 5432 } %>
+  <<: *default
   database: whislist_test
 
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  <<: *default
   database: my_app_production
   url: <%= ENV["DATABASE_URL"] %>
