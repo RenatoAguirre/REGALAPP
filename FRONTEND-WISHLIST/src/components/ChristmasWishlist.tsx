@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { WishlistItem, NewProduct } from "../types";
 import SnowflakeBackground from "./SnowflakeBackground";
 import WishlistItemCard from "./WishlistItemCard";
 import WishlistFormModal from "./WishlistFormModal";
+import saveWishlist from "../services/saveWishlist.service";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export type ChristmasWishlistProps = {
   isDarkMode: boolean;
@@ -15,6 +17,17 @@ const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
 }) => {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>(wishListItems);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { getAccessTokenSilently } = useAuth0();
+
+  useEffect(() => {
+    if (isOwner) {
+      getAccessTokenSilently().then((token) => {
+        saveWishlist(wishlistItems, token);
+      }
+      );
+    }
+  }, [wishlistItems, isOwner, getAccessTokenSilently]);
+
 
   const addProduct = (product: NewProduct) => {
     setWishlistItems([...wishlistItems, { id: Date.now(), ...product }]);

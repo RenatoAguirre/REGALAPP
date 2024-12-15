@@ -4,7 +4,7 @@ import Header from "./components/layouts/Header";
 import { useDarkMode } from "./hooks/useDarkMode";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Login from "./pages/Login";
+import HomePage from "./pages/Home";
 import MyWishlist from "./pages/MyWishList";
 import UserWishlist from "./pages/UserWishList";
 
@@ -16,7 +16,7 @@ function App() {
     <Router>
       <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       <Routes>
-        <Route path="/" element={!isAuthenticated ? <Login /> : <Navigate to="/me/wishlist" />} />
+        <Route path="/" element={!isAuthenticated ? <HomePage isDarkMode={isDarkMode} /> : <Navigate to="/me/wishlist" />} />
         <Route path="/me/wishlist" element={isAuthenticated ? <MyWishlist isDarkMode={isDarkMode} /> : <Navigate to="/login" />} />
         <Route path="/wishlist/:userId" element={<UserWishlist isDarkMode={isDarkMode} />} />
         <Route path="*" element={<Navigate to={isAuthenticated ? "/me/wishlist" : "/login"} />} />
