@@ -54,3 +54,5 @@ gem "dotenv-rails", "~> 3.1"
 gem "jwt", "~> 2.9"
 
 gem "omniauth-auth0", "~> 3.1"
+
+gem "rack-cors", "~> 2.0"

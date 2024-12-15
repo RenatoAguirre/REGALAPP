@@ -23,6 +23,17 @@ module Octopus
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    Rails.application.config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*' # You can specify the allowed origins here, e.g., 'http://localhost:3000'
+    
+        resource '*',
+          headers: :any,
+          methods: [:get, :post, :put, :patch, :delete, :options, :head],
+          expose: ['Access-Control-Allow-Origin']
+      end
+    end
     
     Rails.application.config.auth0 = {
       domain: "dev-rb7h7bevogf3tu8q.us.auth0.com",
