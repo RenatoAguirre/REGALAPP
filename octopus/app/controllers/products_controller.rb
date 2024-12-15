@@ -40,4 +40,8 @@ class ProductsController < ApplicationController
   def product_params
     params.require(:product).permit(:name, :price, :bought, :description, :image, :link, :order)
   end
+
+  def decoded_token
+    @decoded_token
+  end
 end
