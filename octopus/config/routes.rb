@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :products
   resources :wishlists
+
+  get 'me/wishlist', to: 'wishlists#me_wishlist'
+  get 'wishlist/:id', to: 'wishlists#other_usher_wishlist'
 end

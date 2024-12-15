@@ -1,23 +1,15 @@
 # Create Users
-first_user = User.create(name: "John Doe")
-second_user = User.create(name: "Jane Smith")
+first_user = User.create(name: "John Doe", auth0_id: "123456789")
+second_user = User.create(name: "Jane Smith", auth0_id: "987654321")
 
 # Create Wishlists
 first_wishlist = Wishlist.create(user: first_user)
 second_wishlist = Wishlist.create(user: second_user)
 
 # Create Products for the first wishlist
-Product.create(
-  name: "iPhone 14", 
-  price: 669990, 
-  bought: false, 
-  description: "The best phone ever", 
-  image: "Some image", 
-  link: "https://www.apple.com/iphone-14/", 
-  wishlist: first_wishlist
-)
+Product.create!(name: "iPhone 14", price: 669990, bought: false, description: "The best phone ever", image: "Some image", link: "https://www.apple.com/iphone-14/", wishlist: first_wishlist)
 
-Product.create(
+Product.create!(
   name: "MacBook Pro M1", 
   price: 129990, 
   bought: false, 
@@ -27,7 +19,7 @@ Product.create(
   wishlist: first_wishlist
 )
 
-Product.create(
+Product.create!(
   name: "Apple Watch Series 9", 
   price: 49990, 
   bought: false, 
