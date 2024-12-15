@@ -1,14 +1,14 @@
 import { useAuth0 } from "@auth0/auth0-react";
 
 const SessionButton = () => {
-  const { loginWithPopup, isAuthenticated, logout } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, logout } = useAuth0();
   const buttonLabel = isAuthenticated ? "Log Out" : "Log In";
 
   const sessionHandler = () => {
     if (isAuthenticated) {
       logout();
     } else {
-      loginWithPopup();
+      loginWithRedirect({});
     }
   };
 
