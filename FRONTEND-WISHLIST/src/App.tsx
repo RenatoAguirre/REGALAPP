@@ -7,11 +7,8 @@ function App() {
   const [isDarkMode, toggleDarkMode] = useDarkMode();
   return (
     <>
-      <Header isDarkMode={isDarkMode} />
-      <ChristmasWishlist
-        isDarkMode={isDarkMode}
-        toggleDarkMode={toggleDarkMode}
-      />
+      <Header isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      <ChristmasWishlist isDarkMode={isDarkMode} />
     </>
   );
 }
