@@ -34,9 +34,7 @@ class Auth0Client
   end
 
   def self.get_jwks
-    p 'the domain url is: ' + domain_url
     jwks_uri = URI("#{domain_url}.well-known/jwks.json")
-    p "JWKS URI: #{jwks_uri}"
     Net::HTTP.get_response jwks_uri
   end
 

@@ -1,5 +1,4 @@
 class WishlistsController < ApplicationController
-  before_action :set_wishlist, only: [:show, :update, :destroy]
   before_action :authorize, only: [:create, :delete, :update, :me_wishlist]
 
   # PATCH/PUT /wishlists/:id
@@ -10,13 +9,15 @@ class WishlistsController < ApplicationController
   end
 
   def me_wishlist
-    @wishlist = Wishlist.where(user_id: @decoded_token[:sub])
+    user = handle_new_users_from_auth0
+    @wishlist = Wishlist.where(user_id: user.id)
 
-    if @wishlist.nil?
-      @wishlist = Wishlist.create(user_id: @decoded_token[:sub])
-      render json: { wishlist: @wishlist, link: 'some_link'}, status: :created, location: @wishlist 
+    if @wishlist.first.nil?
+      @wishlist = Wishlist.new(user_id: user.id)
+      @wishlist.save!
+      render json: { wishlist: @wishlist, link: 'some_link'}, status: :created
     else
-      render json: { wishlist: @wishlist, link: 'some_link'}, status: :created, location: @wishlist 
+      render json: { wishlist: @wishlist, link: 'some_link'}, status: :created
     end
   end
 
@@ -26,15 +27,17 @@ class WishlistsController < ApplicationController
     render json: { wishlist: @wishlist, products: @wishlist.products }
   end
 
-  private
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_wishlist
-    @wishlist = Wishlist.find(params[:id])
+  def handle_new_users_from_auth0
+    User.find_or_create_by(auth0_id: auth0_token["sub"])
   end
 
+  private
   # Only allow a list of trusted parameters through.
   def wishlist_params
     params.require(:wishlist).permit(:products)
+  end
+
+  def auth0_token
+    @decoded_token.token[0]
   end
 end
