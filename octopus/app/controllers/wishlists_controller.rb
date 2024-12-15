@@ -1,47 +1,23 @@
 class WishlistsController < ApplicationController
   before_action :set_wishlist, only: [:show, :update, :destroy]
-  # before_action :authorize, only: [:create, :delete, :update]
+  before_action :authorize, only: [:create, :delete, :update]
 
-  # GET /wishlists
-  def index
-    @wishlists = Wishlist.all
-    render json: @wishlists
-  end
-
-  # GET /wishlists/:id
-  def show
-    render json: { wishlist: @wishlist, products: @wishlist.products }
+  # PATCH/PUT /wishlists/:id
+  def update
+    @wishlist = Wishlist.where(user_id: @decoded_token[:sub]).first
+    @wishlist.products = wishlist_params[:products]
+    render json: @wishlist
   end
 
   def me_wishlist
     @wishlist = Wishlist.where(user_id: @decoded_token[:sub]).first
-    render json: { wishlist: @wishlist, products: @wishlist.products }
-  end
 
-  # POST /wishlists
-  def create
-    @wishlist = Wishlist.new(wishlist_params)
-
-    if @wishlist.save
+    if @wishlist.nil?
+      @wishlist = Wishlist.create(user_id: @decoded_token[:sub])
       render json: { wishlist: @wishlist, link: 'some_link'}, status: :created, location: @wishlist 
     else
-      render json: @wishlist.errors, status: :unprocessable_entity
+      render json: { wishlist: @wishlist, link: 'some_link'}, status: :created, location: @wishlist 
     end
-  end
-
-  # PATCH/PUT /wishlists/:id
-  def update
-    if @wishlist.update(wishlist_params)
-      render json: @wishlist
-    else
-      render json: @wishlist.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /wishlists/:id
-  def destroy
-    @wishlist.destroy
-    head :no_content
   end
 
   def other_usher_wishlist
@@ -59,6 +35,6 @@ class WishlistsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def wishlist_params
-    params.require(:wishlist).permit(:user_id)
+    params.require(:wishlist).permit(:products)
   end
 end
