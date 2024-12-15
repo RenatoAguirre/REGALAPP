@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_15_020656) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_15_021645) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -25,6 +25,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_15_020656) do
     t.integer "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "wishlist_id", null: false
+    t.index ["wishlist_id"], name: "index_products_on_wishlist_id"
   end
 
   create_table "wishlists", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -32,4 +34,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_15_020656) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "products", "wishlists"
 end
