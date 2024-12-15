@@ -6,7 +6,8 @@ class WishlistsController < ApplicationController
 
   def show
     @wishlist = Wishlist.find(params[:id])
-    render json: @wishlist
+    @products = @wishlist.products
+    render json: { wishlist: @wishlist, products: @products }
   end
 
   def create
