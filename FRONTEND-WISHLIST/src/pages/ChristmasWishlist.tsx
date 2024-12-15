@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { WishlistItem, NewProduct } from "../types";
-import { useDarkMode } from "../hooks/useDarkMode";
 import ThemeToggle from "../components/ThemeToggle";
 import SnowflakeBackground from "../components/SnowflakeBackground";
 import WishlistItemCard from "../components/WishlistItemCard";
 import WishlistFormModal from "../components/WishlistFormModal";
 
-const ChristmasWishlist: React.FC = () => {
+export type ChristmasWishlistProps = {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void;
+};
+
+const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
+  isDarkMode,
+  toggleDarkMode,
+}) => {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDarkMode, toggleDarkMode] = useDarkMode();
 
   const addProduct = (product: NewProduct) => {
     setWishlistItems([...wishlistItems, { id: Date.now(), ...product }]);
@@ -23,20 +29,7 @@ const ChristmasWishlist: React.FC = () => {
     <div className={`min-h-screen ${isDarkMode ? "bg-gray-900" : "bg-red-50"}`}>
       <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleDarkMode} />
       <SnowflakeBackground isDarkMode={isDarkMode} />
-      <header
-        className={`${
-          isDarkMode ? "bg-gray-800" : "bg-red-600"
-        } text-white py-6 shadow-lg`}
-      >
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold text-center font-serif">
-            Christmas Wishlist
-          </h1>
-          <p className="text-center mt-2 text-gray-300">
-            Make your holiday dreams come true!
-          </p>
-        </div>
-      </header>
+
       <div className="container mx-auto px-4 py-8">
         <button
           onClick={() => setIsModalOpen(true)}
