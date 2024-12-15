@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Product } from '../types';
 import api from './api';
 
-export const useWishlists = () => {
+export const useWishlistsApi = () => {
   const { getAccessTokenSilently } = useAuth0();
   const token = getAccessTokenSilently();
 
