@@ -6,7 +6,7 @@ async function saveWishlist(wishlist: WishlistItem[], token: string): Promise<vo
         const headers = {
             Authorization: `Bearer ${token}`,
         };
-        const response = await axiosInstance.post(`me/wishlist`, wishlist, { headers });
+        const response = await axiosInstance.put(`me/wishlist`, wishlist, { headers });
 
         // Handle the response if needed
         console.log('Wishlist saved successfully:', response.data);
