@@ -1,6 +1,6 @@
 class WishlistsController < ApplicationController
   before_action :set_wishlist, only: [:show, :update, :destroy]
-  before_action :authorize, only: [:create, :delete, :update]
+  before_action :authorize, only: [:create, :delete, :update, :me_wishlist]
 
   # PATCH/PUT /wishlists/:id
   def update
@@ -10,7 +10,7 @@ class WishlistsController < ApplicationController
   end
 
   def me_wishlist
-    @wishlist = Wishlist.where(user_id: @decoded_token[:sub]).first
+    @wishlist = Wishlist.where(user_id: @decoded_token[:sub])
 
     if @wishlist.nil?
       @wishlist = Wishlist.create(user_id: @decoded_token[:sub])
