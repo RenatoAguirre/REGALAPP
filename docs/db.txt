@@ -1,0 +1,28 @@
+product:
+  id
+  whishlist
+  name
+  price
+  bought
+  description?
+  image?
+  link?
+
+user:
+  email
+
+savedwhishlist:
+  user
+  whishlist
+  name
+
+whishlist:
+  UUID
+  user
+
+
+
+
+
+
+
