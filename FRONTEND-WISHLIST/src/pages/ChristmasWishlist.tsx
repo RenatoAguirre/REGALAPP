@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { WishlistItem, NewProduct } from "../types";
-import ThemeToggle from "../components/ThemeToggle";
 import SnowflakeBackground from "../components/SnowflakeBackground";
 import WishlistItemCard from "../components/WishlistItemCard";
 import WishlistFormModal from "../components/WishlistFormModal";
 
 export type ChristmasWishlistProps = {
   isDarkMode: boolean;
-  toggleDarkMode: () => void;
 };
 
 const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
   isDarkMode,
-  toggleDarkMode,
 }) => {
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,7 +24,6 @@ const ChristmasWishlist: React.FC<ChristmasWishlistProps> = ({
 
   return (
     <div className={`min-h-screen ${isDarkMode ? "bg-gray-900" : "bg-red-50"}`}>
-      <ThemeToggle isDarkMode={isDarkMode} onToggle={toggleDarkMode} />
       <SnowflakeBackground isDarkMode={isDarkMode} />
 
       <div className="container mx-auto px-4 py-8">
